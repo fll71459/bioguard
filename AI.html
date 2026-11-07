@@ -1,0 +1,493 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>The Message Journey</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a workbench "lab sheet" on graph paper — numbered stations (a real sequence) running top to bottom, each with a hands-on demo. */
+:root {
+  --bg: #EEF2F7;
+  --grid: rgba(40, 70, 130, 0.07);
+  --sheet: #FFFFFF;
+  --ink: #12203A;
+  --muted: #55627A;
+  --line: #D5DCE7;
+  --accent: #2F5BEA;
+  --accent-soft: #E3EAFE;
+  --signal: #FFC23D;
+  --signal-ink: #5A3F00;
+  --rules: #7B4FD6; --rules-soft: #EEE7FD;
+  --files: #14936A; --files-soft: #DDF5EC;
+  --past: #3E7BC4; --past-soft: #E1EDFA;
+  --tool: #B7791F; --tool-soft: #FCF0D9;
+  --gone: #D9534F; --gone-soft: #FBE4E3;
+  --f-display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+  --f-body: "Atkinson Hyperlegible", "Verdana", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1626; --grid: rgba(140, 170, 230, 0.06); --sheet: #16213A; --ink: #E7ECF6; --muted: #9AA7BF; --line: #2A3754;
+    --accent: #7C9CFF; --accent-soft: #23305A; --signal: #FFC23D; --signal-ink: #2A1E00;
+    --rules: #B79BFF; --rules-soft: #2C2450; --files: #4FD1A5; --files-soft: #173C33;
+    --past: #7FB2F0; --past-soft: #1D3150; --tool: #F0B860; --tool-soft: #3A2E17;
+    --gone: #F08A86; --gone-soft: #3E2224; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1626; --grid: rgba(140, 170, 230, 0.06); --sheet: #16213A; --ink: #E7ECF6; --muted: #9AA7BF; --line: #2A3754;
+  --accent: #7C9CFF; --accent-soft: #23305A; --signal: #FFC23D; --signal-ink: #2A1E00;
+  --rules: #B79BFF; --rules-soft: #2C2450; --files: #4FD1A5; --files-soft: #173C33;
+  --past: #7FB2F0; --past-soft: #1D3150; --tool: #F0B860; --tool-soft: #3A2E17;
+  --gone: #F08A86; --gone-soft: #3E2224; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background-color: var(--bg);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.55;
+}
+.wrap {
+  max-width: 980px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 40px 64px;
+  display: flex; flex-direction: column; gap: 28px;
+}
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-height: 1.1; }
+h1 { font-size: clamp(2.4rem, 7vw, 4.2rem); font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: clamp(1.5rem, 3.6vw, 2.1rem); font-weight: 700; }
+h3 { font-size: 1.1rem; font-weight: 700; }
+p { margin: 0; max-width: 65ch; }
+.eyebrow { font-family: var(--f-mono); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+button { font: inherit; cursor: pointer; }
+button:focus-visible, input:focus-visible { outline: 3px solid var(--signal); outline-offset: 2px; }
+
+/* Hero */
+.hero { display: flex; flex-direction: column; gap: 16px; }
+.hero h1 .hl { background: linear-gradient(transparent 62%, var(--signal) 62%, var(--signal) 90%, transparent 90%); }
+.hero .lede { font-size: 1.2rem; color: var(--muted); }
+.flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; }
+.flow a {
+  text-decoration: none; color: var(--ink); background: var(--sheet); border: 2px solid var(--ink);
+  border-radius: 999px; padding: 6px 14px; font-weight: 700; font-size: 0.95rem;
+  display: inline-flex; gap: 8px; align-items: baseline;
+}
+.flow a:hover { background: var(--accent-soft); }
+.flow a b { font-family: var(--f-mono); font-size: 0.8rem; color: var(--accent); }
+.flow .arrow { color: var(--muted); font-weight: 700; }
+.loopnote { font-family: var(--f-mono); font-size: 0.85rem; color: var(--muted); }
+
+/* Station */
+.station {
+  background: var(--sheet); border: 2px solid var(--ink); border-radius: 14px;
+  box-shadow: 6px 6px 0 var(--ink);
+  padding-block: 24px; padding-inline: clamp(16px, 4vw, 32px);
+  display: flex; flex-direction: column; gap: 16px; scroll-margin-top: 16px;
+}
+.station-head { display: flex; gap: 16px; align-items: flex-start; }
+.num {
+  flex: none; width: 48px; height: 48px; border-radius: 50%; background: var(--signal); color: var(--signal-ink);
+  font-family: var(--f-display); font-weight: 800; font-size: 1.4rem; display: grid; place-items: center; border: 2px solid var(--ink);
+}
+.station-head > div { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.ask {
+  border: 2px dashed var(--accent); border-radius: 10px; padding: 12px 14px; background: var(--accent-soft);
+  display: flex; gap: 10px; align-items: baseline; font-size: 0.98rem;
+}
+.ask strong { font-family: var(--f-mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); flex: none; }
+.analogy { border-left: 4px solid var(--signal); padding-left: 14px; font-size: 1.05rem; }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.cols > * { min-width: 0; }
+@media (max-width: 720px) { .cols { grid-template-columns: 1fr; } }
+
+/* Chat bubble */
+.chatbox { display: flex; flex-direction: column; gap: 10px; }
+.bubble { padding: 10px 14px; border-radius: 16px; max-width: 85%; font-size: 0.98rem; }
+.bubble.you { align-self: flex-end; background: var(--accent); color: #fff; border-bottom-right-radius: 4px; }
+:root[data-theme="dark"] .bubble.you { color: #0E1626; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .bubble.you { color: #0E1626; } }
+.bubble.ai { align-self: flex-start; background: var(--bg); border: 1px solid var(--line); border-bottom-left-radius: 4px; }
+.bubble.ai.unsure { background: var(--gone-soft); border-color: var(--gone); }
+
+/* Tokens */
+.tok-input { width: 100%; font: inherit; font-size: 1.05rem; padding: 12px 14px; border-radius: 10px; border: 2px solid var(--ink); background: var(--bg); color: var(--ink); }
+.tokens { display: flex; flex-wrap: wrap; gap: 6px; }
+.tk { display: inline-flex; flex-direction: column; align-items: center; border-radius: 8px; padding: 4px 8px; font-family: var(--f-mono); font-size: 0.95rem; border: 1px solid transparent; }
+.tk small { font-size: 0.65rem; opacity: 0.75; }
+.tk .sp { opacity: 0.4; }
+.tk.c0 { background: var(--past-soft); border-color: var(--past); }
+.tk.c1 { background: var(--files-soft); border-color: var(--files); }
+.tk.c2 { background: var(--rules-soft); border-color: var(--rules); }
+.tk.c3 { background: var(--tool-soft); border-color: var(--tool); }
+.tok-stats { display: flex; gap: 20px; flex-wrap: wrap; font-family: var(--f-mono); font-size: 0.9rem; color: var(--muted); }
+.tok-stats b { color: var(--ink); font-size: 1.3rem; font-variant-numeric: tabular-nums; }
+
+/* Context stack */
+.stack { display: flex; flex-direction: column; gap: 6px; border: 2px solid var(--ink); border-radius: 12px; padding: 10px; background: var(--bg); }
+.stack-label { font-family: var(--f-mono); font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; display: flex; justify-content: space-between; }
+.blk { border-radius: 8px; padding: 8px 12px; border-left: 6px solid; font-size: 0.92rem; }
+.blk b { display: block; font-size: 0.78rem; font-family: var(--f-mono); text-transform: uppercase; letter-spacing: 0.06em; }
+.blk.rules { background: var(--rules-soft); border-color: var(--rules); } .blk.rules b { color: var(--rules); }
+.blk.files { background: var(--files-soft); border-color: var(--files); } .blk.files b { color: var(--files); }
+.blk.past { background: var(--past-soft); border-color: var(--past); } .blk.past b { color: var(--past); }
+.blk.tool { background: var(--tool-soft); border-color: var(--tool); } .blk.tool b { color: var(--tool); }
+.blk.now { background: var(--accent-soft); border-color: var(--accent); } .blk.now b { color: var(--accent); }
+.blk.gone { background: var(--gone-soft); border-color: var(--gone); text-decoration: line-through; opacity: 0.7; } .blk.gone b { color: var(--gone); }
+
+/* Predictor */
+.sentence { font-family: var(--f-mono); font-size: 1.15rem; padding: 14px; border-radius: 10px; background: var(--bg); border: 1px solid var(--line); min-height: 56px; overflow-wrap: anywhere; }
+.sentence .new { background: var(--signal); color: var(--signal-ink); border-radius: 4px; padding: 0 2px; }
+.sentence .cursor { display: inline-block; width: 10px; height: 1.1em; background: var(--accent); vertical-align: text-bottom; margin-left: 2px; animation: blink 1s steps(2) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.cands { display: flex; flex-direction: column; gap: 6px; }
+.cand { display: grid; grid-template-columns: 110px 1fr 48px; align-items: center; gap: 10px; background: none; border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; color: var(--ink); text-align: left; }
+.cand:hover { border-color: var(--accent); background: var(--accent-soft); }
+.cand .w { font-family: var(--f-mono); font-weight: 600; overflow-wrap: anywhere; }
+.cand .bar { height: 12px; border-radius: 6px; background: var(--line); overflow: hidden; }
+.cand .bar i { display: block; height: 100%; background: var(--accent); }
+.cand .pct { font-family: var(--f-mono); font-size: 0.85rem; text-align: right; font-variant-numeric: tabular-nums; }
+.btnrow { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn { border: 2px solid var(--ink); border-radius: 10px; padding: 8px 16px; background: var(--sheet); color: var(--ink); font-weight: 700; box-shadow: 3px 3px 0 var(--ink); }
+.btn:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--ink); }
+.btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
+.btn.primary { background: var(--signal); color: var(--signal-ink); }
+.btn[disabled] { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: 3px 3px 0 var(--ink); }
+.done-note { font-size: 0.95rem; color: var(--muted); }
+
+/* Tools */
+.toolflow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.toolflow > div { border: 2px solid var(--ink); border-radius: 10px; padding: 12px; background: var(--bg); display: flex; flex-direction: column; gap: 6px; font-size: 0.95rem; min-width: 0; }
+.toolflow .step { font-family: var(--f-mono); font-size: 0.75rem; color: var(--muted); }
+.toolflow code { font-family: var(--f-mono); font-size: 0.82rem; background: var(--tool-soft); padding: 2px 6px; border-radius: 4px; overflow-wrap: anywhere; }
+@media (max-width: 720px) { .toolflow { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 420px) { .toolflow { grid-template-columns: 1fr; } }
+
+/* Simulator */
+.seg { display: inline-flex; border: 2px solid var(--ink); border-radius: 10px; overflow: hidden; }
+.seg button { border: none; background: var(--sheet); color: var(--ink); padding: 6px 14px; font-weight: 700; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--sheet); }
+.meter { height: 18px; border-radius: 9px; border: 2px solid var(--ink); background: var(--bg); overflow: hidden; }
+.meter i { display: block; height: 100%; background: var(--accent); transition: width 0.4s ease; }
+.meter.full i { background: var(--gone); }
+.sim-log { display: flex; flex-direction: column; gap: 8px; max-height: 420px; overflow-y: auto; padding-right: 4px; }
+.sim-ctx { display: flex; flex-direction: column; gap: 5px; max-height: 420px; overflow-y: auto; }
+.sim-ctx .blk { font-size: 0.85rem; padding: 6px 10px; display: flex; justify-content: space-between; gap: 8px; }
+.sim-ctx .blk span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sim-ctx .blk em { font-style: normal; font-family: var(--f-mono); font-size: 0.75rem; flex: none; }
+.sim-msg { font-weight: 700; min-height: 1.5em; }
+
+/* Recap */
+.recap { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.recap div { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; background: var(--bg); display: flex; flex-direction: column; gap: 4px; }
+.recap dt { font-family: var(--f-display); font-weight: 700; font-size: 1.1rem; }
+.recap dd { margin: 0; font-size: 0.95rem; color: var(--muted); }
+.foot { font-size: 0.85rem; color: var(--muted); text-align: center; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow">Robotics for Youth · How AI chat works</span>
+    <h1>The <span class="hl">Message</span> Journey</h1>
+    <p class="lede">What happens between pressing <b>Send</b> and seeing an answer? Follow one question through six stations and try each one yourself.</p>
+    <nav class="flow" aria-label="Stations">
+      <a href="#s1"><b>1</b>You ask</a><span class="arrow">→</span>
+      <a href="#s2"><b>2</b>Tokens</a><span class="arrow">→</span>
+      <a href="#s3"><b>3</b>Context</a><span class="arrow">→</span>
+      <a href="#s4"><b>4</b>Predict</a><span class="arrow">→</span>
+      <a href="#s5"><b>5</b>Tools</a><span class="arrow">→</span>
+      <a href="#s6"><b>6</b>Memory limits</a>
+    </nav>
+    <span class="loopnote">↺ Every answer gets added back into the context, so the loop starts again on your next message.</span>
+  </header>
+
+  <!-- 1 -->
+  <section class="station" id="s1">
+    <div class="station-head"><div class="num">1</div><div><span class="eyebrow">Station 1</span><h2>You type a question</h2></div></div>
+    <div class="cols">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <p>It all starts with you. You type a message and press Send. To you it is words. To a computer, words are hard to work with. Computers are great with <b>numbers</b>.</p>
+        <p>So the first job is to turn your words into numbers the AI can read.</p>
+      </div>
+      <div class="chatbox" aria-label="Example chat">
+        <div class="bubble you">My robot keeps bumping into walls. How do I stop it?</div>
+        <div class="bubble ai">…thinking…</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="station" id="s2">
+    <div class="station-head"><div class="num">2</div><div><span class="eyebrow">Station 2</span><h2>Your words get chopped into tokens</h2></div></div>
+    <p>The AI cuts your message into small pieces called <b>tokens</b>. A token is often a whole word, sometimes part of a long word, and sometimes just a comma. Each token has an ID number, like a LEGO piece with a part number.</p>
+    <label for="tokIn" class="eyebrow">Type anything to see it chopped up</label>
+    <input id="tokIn" class="tok-input" value="My robot keeps bumping into walls. How do I stop it?" autocomplete="off">
+    <div class="tokens" id="tokOut" aria-live="polite"></div>
+    <div class="tok-stats"><span>Characters <b id="tcChars">0</b></span><span>Words <b id="tcWords">0</b></span><span>Tokens <b id="tcToks">0</b></span></div>
+    <p class="done-note">This is a classroom version. Real AI models use a "dictionary" of about 100,000 token pieces, but the idea is the same: a short word is usually 1 token, and a long word like "ultrasonic" may become 2 or 3.</p>
+    <div class="ask"><strong>Ask the class</strong><span>Try a made-up word like "zorbleflax". Why does it turn into more tokens than "robot"?</span></div>
+  </section>
+
+  <!-- 3 -->
+  <section class="station" id="s3">
+    <div class="station-head"><div class="num">3</div><div><span class="eyebrow">Station 3</span><h2>Everything goes into the context window</h2></div></div>
+    <div class="cols">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <p>Your tokens don't go to the AI alone. They are added to the <b>context window</b>: one long page that holds everything the AI is allowed to see right now.</p>
+        <p class="analogy">Think of it as a <b>whiteboard</b>. Before every single reply, the AI reads the whole whiteboard from top to bottom. If something isn't on the whiteboard, the AI doesn't know about it.</p>
+        <p>This is the big surprise: the AI has <b>no memory</b> between messages. It "remembers" your earlier messages only because the app copies the whole conversation back onto the whiteboard every time you press Send.</p>
+      </div>
+      <div class="stack" aria-label="Context window example">
+        <div class="stack-label"><span>Context window</span><span>read top → bottom</span></div>
+        <div class="blk rules"><b>Instructions</b>Rules from the app: "Be helpful, be kind, today's date is…"</div>
+        <div class="blk files"><b>Files &amp; notes</b>Anything you shared, like a photo of your robot or your code.</div>
+        <div class="blk past"><b>Earlier chat</b>You: "I built a robot with two wheels." AI: "Cool! What sensors does it have?"</div>
+        <div class="blk tool"><b>Tool results</b>Results from searches or programs the AI ran (see Station 5).</div>
+        <div class="blk now"><b>Your new message</b>"My robot keeps bumping into walls. How do I stop it?"</div>
+      </div>
+    </div>
+    <div class="ask"><strong>Ask the class</strong><span>If you start a brand-new chat, can the AI remember what you told it yesterday? Why or why not?</span></div>
+  </section>
+
+  <!-- 4 -->
+  <section class="station" id="s4">
+    <div class="station-head"><div class="num">4</div><div><span class="eyebrow">Station 4</span><h2>The AI guesses the next token, again and again</h2></div></div>
+    <p>The AI reads the whole whiteboard and asks one question: <b>"What token most likely comes next?"</b> It picks one, writes it on the whiteboard, then asks again. An answer of 200 words means about 250 guesses in a row, very fast.</p>
+    <p class="analogy">It's like the word suggestions on a phone keyboard, but trained on a huge library of text so the guesses are much, much better.</p>
+    <div class="sentence" id="predSentence" aria-live="polite"></div>
+    <div class="cands" id="predCands"></div>
+    <div class="btnrow">
+      <button class="btn primary" id="predAuto" type="button">Let the AI pick</button>
+      <button class="btn" id="predReset" type="button">Start over</button>
+    </div>
+    <p class="done-note" id="predNote">Click a word to choose it yourself, or let the AI pick. The AI usually picks a likely word, but not always the top one. That little bit of chance is why asking the same question twice can give different answers.</p>
+    <div class="ask"><strong>Ask the class</strong><span>Press "Start over" and let the AI pick a few times. Did you get the same sentence each time?</span></div>
+  </section>
+
+  <!-- 5 -->
+  <section class="station" id="s5">
+    <div class="station-head"><div class="num">5</div><div><span class="eyebrow">Station 5</span><h2>Sometimes it uses a tool</h2></div></div>
+    <p>The AI only knows what it learned in training plus what's on the whiteboard. For things like today's weather, a math problem, or a file on your computer, it can ask for a <b>tool</b>. The tool's answer gets written onto the whiteboard, and then the AI keeps guessing tokens.</p>
+    <div class="toolflow">
+      <div><span class="step">Step 1</span><b>You ask</b>"Will it rain at our robot competition on Saturday?"</div>
+      <div><span class="step">Step 2</span><b>AI asks a tool</b><code>weather("Saturday")</code></div>
+      <div><span class="step">Step 3</span><b>Result added</b><span>The tool writes <code>70% rain</code> onto the whiteboard.</span></div>
+      <div><span class="step">Step 4</span><b>AI answers</b>"Probably! Pack a cover for your robot."</div>
+    </div>
+    <div class="ask"><strong>Ask the class</strong><span>Name a question an AI could not answer without a tool.</span></div>
+  </section>
+
+  <!-- 6 -->
+  <section class="station" id="s6">
+    <div class="station-head"><div class="num">6</div><div><span class="eyebrow">Station 6</span><h2>The whiteboard can fill up</h2></div></div>
+    <p>The whiteboard has a size limit. Big models can hold hundreds of thousands of tokens, which is a whole book. But when a chat gets too long, the oldest messages get wiped off to make room, and the AI can forget them.</p>
+    <p>Try it. Pick a whiteboard size, then send the messages one at a time. Watch what happens to Priya's first message.</p>
+    <div class="btnrow" style="align-items:center">
+      <span class="eyebrow">Whiteboard size</span>
+      <div class="seg" role="group" aria-label="Whiteboard size">
+        <button type="button" id="szBig" aria-pressed="true">Big</button>
+        <button type="button" id="szSmall" aria-pressed="false">Tiny</button>
+      </div>
+    </div>
+    <div class="cols">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <span class="eyebrow">The chat you see</span>
+        <div class="sim-log chatbox" id="simLog"></div>
+        <div class="btnrow">
+          <button class="btn primary" id="simNext" type="button">Send next message</button>
+          <button class="btn" id="simReset" type="button">Reset</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <span class="eyebrow">What the AI can see · <span id="simCount">0</span> / <span id="simCap">0</span> tokens</span>
+        <div class="meter" id="simMeter"><i style="width:0%"></i></div>
+        <div class="sim-ctx" id="simCtx"></div>
+        <div class="sim-msg" id="simMsg" aria-live="polite"></div>
+      </div>
+    </div>
+    <div class="ask"><strong>Ask the class</strong><span>With the tiny whiteboard, why did the AI forget the robot's name? What could Priya do so it remembers?</span></div>
+  </section>
+
+  <!-- Recap -->
+  <section class="station" id="recap">
+    <div class="station-head"><div class="num">✓</div><div><span class="eyebrow">Recap</span><h2>Words to remember</h2></div></div>
+    <dl class="recap">
+      <div><dt>Token</dt><dd>A small piece of text (a word or part of one) with an ID number.</dd></div>
+      <div><dt>Context window</dt><dd>The whiteboard: everything the AI can see right now, read fresh before every reply.</dd></div>
+      <div><dt>Prediction</dt><dd>The AI writes by guessing the next token, one at a time.</dd></div>
+      <div><dt>Tool</dt><dd>A helper program (search, calculator, files) whose results get added to the whiteboard.</dd></div>
+      <div><dt>Context limit</dt><dd>The whiteboard's size. When it's full, old stuff gets wiped and forgotten.</dd></div>
+    </dl>
+    <p><b>The whole journey in one line:</b> your words become tokens → tokens join everything else on the whiteboard → the AI reads it all and guesses the answer one token at a time → the answer goes on the whiteboard too, ready for your next question.</p>
+  </section>
+  <p class="foot">Made for Robotics for Youth classes. The token numbers and percentages here are simplified for teaching.</p>
+</div>
+
+<script>
+(function () {
+  // ---------- Tokenizer (classroom approximation) ----------
+  function tokenize(s) {
+    const raw = s.match(/ ?[A-Za-z']+| ?\d| ?[^\sA-Za-z\d]|\s+/g) || [];
+    const out = [];
+    for (const t of raw) {
+      if (/^\s+$/.test(t)) { if (t.length > 1) out.push(t); continue; }
+      const m = t.match(/^( ?)([A-Za-z']+)$/);
+      if (m && m[2].length > 6) {
+        const lead = m[1], w = m[2];
+        let first = w.slice(0, 4), rest = w.slice(4);
+        out.push(lead + first);
+        while (rest.length) { const n = rest.length <= 5 ? rest.length : 3; out.push(rest.slice(0, n)); rest = rest.slice(n); }
+      } else out.push(t);
+    }
+    return out;
+  }
+  function tokId(t) { let h = 7; for (const c of t) h = (h * 31 + c.charCodeAt(0)) % 99991; return 100 + (h % 49900); }
+  function esc(s) { return s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+
+  const tokIn = document.getElementById('tokIn');
+  function renderTokens() {
+    const v = tokIn.value;
+    const toks = tokenize(v);
+    document.getElementById('tokOut').innerHTML = toks.map((t, i) => {
+      const shown = esc(t).replace(/^ /, '<span class="sp">·</span>');
+      return `<span class="tk c${i % 4}">${shown}<small>#${tokId(t)}</small></span>`;
+    }).join('');
+    document.getElementById('tcChars').textContent = v.length;
+    document.getElementById('tcWords').textContent = (v.trim().match(/\S+/g) || []).length;
+    document.getElementById('tcToks').textContent = toks.length;
+  }
+  tokIn.addEventListener('input', renderTokens);
+  renderTokens();
+
+  // ---------- Next-token predictor ----------
+  const START = "My robot's name is";
+  const NAMES = [[' Bolt', 34], [' Sparky', 22], [' Robo', 18], [' Max', 12], [' Beep', 8], [' Kevin', 6]];
+  const AFTER_NAME = [[' because', 45], [' and', 30], ['.', 25]];
+  const LINK = [[' it', 60], [" it's", 40]];
+  const IT = [[' zooms', 40], [' beeps', 35], [' glows', 25]];
+  const ITS = [[' fast', 45], [' shiny', 30], [' loud', 25]];
+  const END = [['.', 65], ['!', 35]];
+  let words = [];
+  function options() {
+    const last = words[words.length - 1];
+    if (!last) return NAMES;
+    if (NAMES.some(n => n[0] === last)) return AFTER_NAME;
+    if (last === ' because' || last === ' and') return LINK;
+    if (last === ' it') return IT;
+    if (last === " it's") return ITS;
+    if (last === '.' || last === '!') return null;
+    return END;
+  }
+  function renderPred() {
+    const s = document.getElementById('predSentence');
+    s.innerHTML = esc(START) + words.map((w, i) => i === words.length - 1 ? `<span class="new">${esc(w)}</span>` : esc(w)).join('') + (options() ? '<span class="cursor"></span>' : '');
+    const opts = options();
+    const c = document.getElementById('predCands');
+    const auto = document.getElementById('predAuto');
+    if (!opts) {
+      c.innerHTML = '<p class="done-note">Finished! The AI predicted an "end" token, so it stops writing. Every word you see in an AI answer was made this way, one guess at a time.</p>';
+      auto.disabled = true; return;
+    }
+    auto.disabled = false;
+    c.innerHTML = opts.map(([w, p], i) => `<button type="button" class="cand" data-i="${i}" aria-label="Pick ${esc(w.trim())}, ${p} percent"><span class="w">${esc(w.trim() || w)}</span><span class="bar"><i style="width:${p}%"></i></span><span class="pct">${p}%</span></button>`).join('');
+    c.querySelectorAll('.cand').forEach(b => b.addEventListener('click', () => { words.push(opts[+b.dataset.i][0]); renderPred(); }));
+  }
+  document.getElementById('predAuto').addEventListener('click', () => {
+    const opts = options(); if (!opts) return;
+    let r = Math.random() * 100;
+    for (const [w, p] of opts) { r -= p; if (r <= 0) { words.push(w); break; } }
+    if (r > 0) words.push(opts[0][0]);
+    renderPred();
+  });
+  document.getElementById('predReset').addEventListener('click', () => { words = []; renderPred(); });
+  renderPred();
+
+  // ---------- Context window simulator ----------
+  const RULES = { kind: 'rules', who: 'Instructions', text: 'Be a friendly robotics helper.' };
+  const SCRIPT = [
+    { who: 'you', text: "Hi! I'm Priya. My robot is called Bolt and it has two wheels.", key: true },
+    { who: 'ai', text: 'Nice to meet you, Priya! Bolt sounds speedy.' },
+    { who: 'you', text: 'How do I make it follow a black line on the floor?' },
+    { who: 'ai', text: 'Use two light sensors pointing down. When one sees black, turn toward that side.' },
+    { who: 'you', text: 'What sensor tells how far away a wall is?' },
+    { who: 'ai', text: 'An ultrasonic sensor. It sends out a sound and times the echo, just like a bat.' },
+    { who: 'you', text: 'Can you give me a fun challenge for this weekend?' },
+    { who: 'ai', text: 'Build a maze from boxes and see if your robot can escape without bumping a wall!' },
+    { who: 'you', text: "Wait, what's my robot called again?", final: true }
+  ];
+  const CAPS = { big: 400, small: 75 };
+  let size = 'big', step = 0, ctx = [], log = [];
+  const count = t => tokenize(t).length;
+  RULES.n = count(RULES.text);
+  SCRIPT.forEach(m => m.n = count(m.text));
+
+  function used() { return RULES.n + ctx.filter(m => !m.gone).reduce((a, m) => a + m.n, 0); }
+  function add(msg) {
+    ctx.push({ ...msg, gone: false });
+    let msgText = '';
+    while (used() > CAPS[size]) {
+      const oldest = ctx.find(m => !m.gone);
+      if (!oldest) break;
+      oldest.gone = true;
+      msgText = 'The whiteboard was full, so the oldest message got wiped off.';
+    }
+    return msgText;
+  }
+  function renderSim() {
+    const cap = CAPS[size], u = used();
+    document.getElementById('simCap').textContent = cap;
+    document.getElementById('simCount').textContent = u;
+    const meter = document.getElementById('simMeter');
+    meter.querySelector('i').style.width = Math.min(100, u / cap * 100) + '%';
+    meter.classList.toggle('full', u / cap > 0.85);
+    document.getElementById('simLog').innerHTML = log.map(m => `<div class="bubble ${m.who === 'you' ? 'you' : 'ai'}${m.unsure ? ' unsure' : ''}">${esc(m.text)}</div>`).join('') || '<p class="done-note">Press "Send next message" to start the chat.</p>';
+    const rows = [`<div class="blk rules"><span><b>Instructions</b>${esc(RULES.text)}</span><em>${RULES.n}</em></div>`]
+      .concat(ctx.map(m => `<div class="blk ${m.gone ? 'gone' : (m.who === 'you' ? 'now' : 'past')}"><span><b>${m.gone ? 'Wiped' : (m.who === 'you' ? 'Priya' : 'AI')}</b>${esc(m.text)}</span><em>${m.n}</em></div>`));
+    document.getElementById('simCtx').innerHTML = rows.join('');
+    const log_ = document.getElementById('simLog'); log_.scrollTop = log_.scrollHeight;
+    const c_ = document.getElementById('simCtx'); c_.scrollTop = c_.scrollHeight;
+    document.getElementById('simNext').disabled = step >= SCRIPT.length;
+  }
+  function next() {
+    if (step >= SCRIPT.length) return;
+    const m = SCRIPT[step++];
+    let note = add(m);
+    log.push(m);
+    if (m.final) {
+      const remembers = ctx.some(x => x.key && !x.gone);
+      const reply = remembers
+        ? { who: 'ai', text: 'Your robot is called Bolt!' }
+        : { who: 'ai', text: "Hmm, I'm not sure. I can't see that in our chat. Can you remind me?", unsure: true };
+      reply.n = count(reply.text);
+      const n2 = add(reply);
+      log.push(reply);
+      note = remembers
+        ? 'Priya’s first message was still on the whiteboard, so the AI could read the name "Bolt".'
+        : 'Priya’s first message was wiped off, so the AI had no way to know the name. It didn’t lie, it just couldn’t see it.';
+      if (n2 && !note) note = n2;
+    }
+    document.getElementById('simMsg').textContent = note;
+    renderSim();
+  }
+  function reset() { step = 0; ctx = []; log = []; document.getElementById('simMsg').textContent = ''; renderSim(); }
+  function setSize(s) {
+    size = s;
+    document.getElementById('szBig').setAttribute('aria-pressed', s === 'big');
+    document.getElementById('szSmall').setAttribute('aria-pressed', s === 'small');
+    reset();
+  }
+  document.getElementById('simNext').addEventListener('click', next);
+  document.getElementById('simReset').addEventListener('click', reset);
+  document.getElementById('szBig').addEventListener('click', () => setSize('big'));
+  document.getElementById('szSmall').addEventListener('click', () => setSize('small'));
+  renderSim();
+})();
+</script>
+
+</body></html>
